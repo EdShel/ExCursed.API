@@ -5,11 +5,19 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using System;
 using System.Collections.Generic;
 using UniAtHome.BLL.Interfaces;
+using UniAtHome.BLL.Interfaces.Collection;
+using UniAtHome.BLL.Interfaces.Test;
+using UniAtHome.BLL.Interfaces.Zoom;
 using UniAtHome.BLL.Services;
+using UniAtHome.BLL.Services.Collection;
+using UniAtHome.BLL.Services.Test;
+using UniAtHome.BLL.Services.Zoom;
 using UniAtHome.DAL;
 using UniAtHome.DAL.Entities;
+using UniAtHome.DAL.Entities.Tests;
 using UniAtHome.DAL.Interfaces;
 using UniAtHome.DAL.Repositories;
 using UniAtHome.WebAPI.Configuration;
@@ -42,7 +50,7 @@ namespace UniAtHome.WebAPI.Extensions
         public static IServiceCollection RegisterIoC(this IServiceCollection services)
         {
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddTransient<UserRepository>();
+            services.AddScoped<UserRepository>();
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<IUniversityRepository, UniversityRepository>();
             services.AddScoped<IRepository<UniversityAdmin>, Repository<UniversityAdmin>>();
@@ -50,6 +58,14 @@ namespace UniAtHome.WebAPI.Extensions
             services.AddScoped<ITeacherRepository, TeacherRepository>();
             services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<IRepository<UniversityCreateRequest>, Repository<UniversityCreateRequest>>();
+            services.AddScoped<IRepository<ZoomUser>, Repository<ZoomUser>>();
+            services.AddScoped<IRepository<ZoomMeeting>, Repository<ZoomMeeting>>();
+            services.AddScoped<IRepository<Test>, Repository<Test>>();
+            services.AddScoped<IRepository<TestQuestion>, Repository<TestQuestion>>();
+            services.AddScoped<IRepository<TestAnswerVariant>, Repository<TestAnswerVariant>>();
+            services.AddScoped<IRepository<TestSchedule>, Repository<TestSchedule>>();
+            services.AddScoped<IRepository<TestAttempt>, Repository<TestAttempt>>();
+            services.AddScoped<IRepository<TestAnsweredQuestion>, Repository<TestAnsweredQuestion>>();
 
             services.AddSingleton<IRefreshTokenFactory, RefreshTokenFactory>();
             services.AddSingleton<IEmailService, EmailService>();
@@ -65,6 +81,22 @@ namespace UniAtHome.WebAPI.Extensions
             services.AddTransient<IFileStorageService, FileStorageService>();
             services.AddScoped<IUniversityRequestService, UniversityRequestService>();
             services.AddScoped<IUniversityRegistrationService, UniversityRegistrationService>();
+            services.AddScoped<ITimetableService, TimetableService>();
+            services.AddScoped<ICollectionShuffler, RandomCollectionShuffler>();
+
+            services.AddScoped<ITestCreationService, TestCreationService>();
+            services.AddScoped<ITestQuestionCreationService, TestQuestionCreationService>();
+            services.AddScoped<ITestAnswerCreationService, TestAnswerCreationService>();
+            services.AddScoped<ITestSchedulingService, TestSchedulingService>();
+            services.AddScoped<ITestGenerationService, TestGenerationService>();
+            services.AddScoped<ITestCreationService, TestCreationService>();
+            services.AddScoped<ITestTakingService, TestTakingService>();
+            services.AddScoped<ITestFullInfoService, TestFullInfoService>();
+
+            services.AddScoped<ZoomAdminClient>();
+            services.AddScoped<IZoomAuthService, ZoomAuthService>();
+            services.AddScoped(services => new Lazy<IZoomAuthService>(services.GetService<IZoomAuthService>));
+            services.AddScoped<ZoomMeetingService>();
 
             services.AddScoped<DbContext, UniAtHomeDbContext>();
 

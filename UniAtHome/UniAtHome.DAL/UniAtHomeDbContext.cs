@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using UniAtHome.DAL.Entities;
+using UniAtHome.DAL.Entities.Tests;
 
 namespace UniAtHome.DAL
 {
@@ -34,6 +35,22 @@ namespace UniAtHome.DAL
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         public DbSet<UniversityCreateRequest> UniversityCreateRequests { get; set; }
+
+        public DbSet<ZoomUser> ZoomUsers { get; set; }
+
+        public DbSet<ZoomMeeting> ZoomMeetings { get; set; }
+
+        public DbSet<Test> Tests { get; set; }
+
+        public DbSet<TestQuestion> TestQuestions { get; set; }
+
+        public DbSet<TestAnswerVariant> TestAnswerVariants { get; set; }
+
+        public DbSet<TestSchedule> TestSchedules { get; set; }
+
+        public DbSet<TestAttempt> TestAttempts { get; set; }
+
+        public DbSet<TestAnsweredQuestion> TestAnsweredQuestions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -151,6 +168,7 @@ namespace UniAtHome.DAL
 
             //Timetable
             modelBuilder.Entity<Timetable>().HasKey(tt => new { tt.GroupId, tt.LessonId });
+            modelBuilder.Entity<Timetable>().Property(tt => tt.Date);
 
             // Refresh token
             modelBuilder.Entity<RefreshToken>().HasKey(rt => rt.Id);
@@ -174,6 +192,48 @@ namespace UniAtHome.DAL
             modelBuilder.Entity<UniversityCreateRequest>().Property(r => r.Email).IsRequired();
             modelBuilder.Entity<UniversityCreateRequest>().Property(r => r.Comment);
             modelBuilder.Entity<UniversityCreateRequest>().Property(r => r.DateOfCreation).IsRequired();
+
+            // Zoom user
+            modelBuilder.Entity<ZoomUser>().HasKey(u => u.UserId);
+            modelBuilder.Entity<ZoomUser>().HasOne(u => u.User).WithOne();
+            modelBuilder.Entity<ZoomUser>().Property(u => u.Token).IsRequired();
+            modelBuilder.Entity<ZoomUser>().Property(u => u.RefreshToken).IsRequired();
+
+            // Zoom meeting
+            modelBuilder.Entity<ZoomMeeting>().HasKey(m => new { m.GroupId, m.LessonId });
+            modelBuilder.Entity<ZoomMeeting>().Property(m => m.ZoomId).IsRequired();
+
+            // Test
+            modelBuilder.Entity<Test>().HasKey(t => t.Id);
+            modelBuilder.Entity<Test>().HasOne(t => t.Course).WithMany(c => c.Tests);
+
+            // Test question
+            modelBuilder.Entity<TestQuestion>().HasKey(q => q.Id);
+            modelBuilder.Entity<TestQuestion>().HasOne(q => q.Test).WithMany(t => t.Questions);
+
+            // Test answer variant
+            modelBuilder.Entity<TestAnswerVariant>().HasKey(a => a.Id);
+            modelBuilder.Entity<TestAnswerVariant>().HasOne(a => a.Question).WithMany(q => q.Answers);
+
+            // Test schedule
+            modelBuilder.Entity<TestSchedule>().HasKey(sch => sch.Id);
+            modelBuilder.Entity<TestSchedule>().HasOne(sch => sch.Timetable).WithMany(tt => tt.TestSchedules);
+
+            // Test attmepts
+            modelBuilder.Entity<TestAttempt>().HasKey(a => a.Id);
+            modelBuilder.Entity<TestAttempt>().HasOne(a => a.Test).WithMany(t => t.TestAttempts);
+            modelBuilder.Entity<TestAttempt>().HasOne(a => a.User).WithMany(u => u.TestAttempts);
+
+            // Test question answers
+            modelBuilder.Entity<TestAnsweredQuestion>().HasKey(aq => new { aq.AttemptId, aq.QuestionId });
+            modelBuilder.Entity<TestAnsweredQuestion>()
+                .HasOne(aq => aq.Attempt)
+                .WithMany(t => t.AnsweredQuestions)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<TestAnsweredQuestion>()
+                .HasOne(aq => aq.Question)
+                .WithMany(q => q.AnsweredQuestions);
+
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -194,11 +254,11 @@ namespace UniAtHome.DAL
             {
                 if (auditableEntity.State == EntityState.Added || auditableEntity.State == EntityState.Modified)
                 {
-                    auditableEntity.Entity.Modified = DateTime.Now;
+                    auditableEntity.Entity.Modified = DateTimeOffset.UtcNow;
 
                     if (auditableEntity.State == EntityState.Added)
                     {
-                        auditableEntity.Entity.Added = DateTime.Now;
+                        auditableEntity.Entity.Added = DateTimeOffset.UtcNow;
                     }
                 }
             }

@@ -49,28 +49,28 @@ namespace UniAtHome.DAL.Migrations
                         new
                         {
                             Id = "2AEFE1C5-C5F0-4399-8FB8-420813567554",
-                            ConcurrencyStamp = "a0b6419c-3653-4f58-98c7-a85c859e12ba",
+                            ConcurrencyStamp = "46c41b0e-44f7-44f2-8289-829aec249d12",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "99DA7670-5471-414F-834E-9B3A6B6C8F6F",
-                            ConcurrencyStamp = "598000fd-78c4-4108-86a9-ef197ce85879",
+                            ConcurrencyStamp = "e3d72959-756d-4d71-b20a-ed5c26a56f22",
                             Name = "UniversityAdmin",
                             NormalizedName = "UNIVERSITYADMIN"
                         },
                         new
                         {
                             Id = "828A3B02-77C0-45C1-8E97-6ED57711E577",
-                            ConcurrencyStamp = "f341109e-eca8-48ad-82c5-b122413e429c",
+                            ConcurrencyStamp = "f838dd86-18d7-4b85-92bc-f62a3c742218",
                             Name = "Teacher",
                             NormalizedName = "TEACHER"
                         },
                         new
                         {
                             Id = "422EEB6A-3031-4B66-ABA8-0F85AFC07C3C",
-                            ConcurrencyStamp = "bb2a12e6-ac16-4955-a80d-d10eb74f44cf",
+                            ConcurrencyStamp = "11990033-8446-4df3-91cf-b14435a7212f",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         });
@@ -209,8 +209,8 @@ namespace UniAtHome.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Added")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("Added")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(2000)")
@@ -220,8 +220,8 @@ namespace UniAtHome.DAL.Migrations
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<DateTime>("Modified")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("Modified")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -236,6 +236,17 @@ namespace UniAtHome.DAL.Migrations
                     b.HasIndex("UniversityId");
 
                     b.ToTable("Courses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Added = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Teaching how to write clean code",
+                            Modified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Name = "Code analysis and refactoring",
+                            UniversityId = 1
+                        });
                 });
 
             modelBuilder.Entity("UniAtHome.DAL.Entities.CourseMember", b =>
@@ -258,6 +269,14 @@ namespace UniAtHome.DAL.Migrations
                     b.HasIndex("TeacherId");
 
                     b.ToTable("CourseMembers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CourseId = 1,
+                            TeacherId = "E8D13331-62AB-463E-A283-6493B68A3622"
+                        });
                 });
 
             modelBuilder.Entity("UniAtHome.DAL.Entities.Group", b =>
@@ -279,6 +298,14 @@ namespace UniAtHome.DAL.Migrations
                     b.HasIndex("CourseMemberId");
 
                     b.ToTable("Group");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CourseMemberId = 1,
+                            Name = "SE-18-6"
+                        });
                 });
 
             modelBuilder.Entity("UniAtHome.DAL.Entities.Lesson", b =>
@@ -288,8 +315,8 @@ namespace UniAtHome.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Added")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("Added")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
@@ -298,8 +325,8 @@ namespace UniAtHome.DAL.Migrations
                         .HasColumnType("nvarchar(2000)")
                         .HasMaxLength(2000);
 
-                    b.Property<DateTime>("Modified")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("Modified")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -311,6 +338,17 @@ namespace UniAtHome.DAL.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("Lessons");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Added = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            CourseId = 1,
+                            Description = "Java does not rule, however we have to pretend it does",
+                            Modified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+                            Title = "Learning Java"
+                        });
                 });
 
             modelBuilder.Entity("UniAtHome.DAL.Entities.RefreshToken", b =>
@@ -320,8 +358,8 @@ namespace UniAtHome.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("ExpirationDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("ExpirationDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Token")
                         .IsRequired()
@@ -374,6 +412,13 @@ namespace UniAtHome.DAL.Migrations
                     b.HasIndex("GroupId");
 
                     b.ToTable("StudentGroups");
+
+                    b.HasData(
+                        new
+                        {
+                            StudentId = "E3A6BF34-A57D-4709-97CC-6AD1B2B3985B",
+                            GroupId = 1
+                        });
                 });
 
             modelBuilder.Entity("UniAtHome.DAL.Entities.Teacher", b =>
@@ -398,6 +443,183 @@ namespace UniAtHome.DAL.Migrations
                         });
                 });
 
+            modelBuilder.Entity("UniAtHome.DAL.Entities.Tests.Test", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AttemptsAllowed")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DurationMinutes")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LessonId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("MaxMark")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("ShuffleQuestions")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ShuffleVariants")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("LessonId");
+
+                    b.ToTable("Tests");
+                });
+
+            modelBuilder.Entity("UniAtHome.DAL.Entities.Tests.TestAnswerVariant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("TestAnswerVariants");
+                });
+
+            modelBuilder.Entity("UniAtHome.DAL.Entities.Tests.TestAnsweredQuestion", b =>
+                {
+                    b.Property<int>("AttemptId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AnswerVariantId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
+
+                    b.HasKey("AttemptId", "QuestionId");
+
+                    b.HasIndex("AnswerVariantId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("TestAnsweredQuestions");
+                });
+
+            modelBuilder.Entity("UniAtHome.DAL.Entities.Tests.TestAttempt", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTimeOffset>("BeginTime")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("EndTime")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("TestId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TestId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("TestAttempts");
+                });
+
+            modelBuilder.Entity("UniAtHome.DAL.Entities.Tests.TestQuestion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Checkbox")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("TestId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("Weight")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TestId");
+
+                    b.ToTable("TestQuestions");
+                });
+
+            modelBuilder.Entity("UniAtHome.DAL.Entities.Tests.TestSchedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTimeOffset>("BeginTime")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset>("EndTime")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LessonId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TestId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TimetableGroupId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TimetableLessonId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TestId");
+
+                    b.HasIndex("TimetableGroupId", "TimetableLessonId");
+
+                    b.ToTable("TestSchedules");
+                });
+
             modelBuilder.Entity("UniAtHome.DAL.Entities.Timetable", b =>
                 {
                     b.Property<int>("GroupId")
@@ -406,12 +628,20 @@ namespace UniAtHome.DAL.Migrations
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("Date")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<int?>("ZoomMeetingGroupId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ZoomMeetingLessonId")
+                        .HasColumnType("int");
 
                     b.HasKey("GroupId", "LessonId");
 
                     b.HasIndex("LessonId");
+
+                    b.HasIndex("ZoomMeetingGroupId", "ZoomMeetingLessonId");
 
                     b.ToTable("Timetables");
                 });
@@ -493,8 +723,8 @@ namespace UniAtHome.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateOfCreation")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTimeOffset>("DateOfCreation")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -600,7 +830,7 @@ namespace UniAtHome.DAL.Migrations
                         {
                             Id = "00CA41A9-C962-4230-937E-D5F54772C062",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e756c2c3-5d76-4446-9a9b-b9a33fa1520b",
+                            ConcurrencyStamp = "42c312ee-cd5e-46ee-93a2-2b10b27ee0cf",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -608,9 +838,9 @@ namespace UniAtHome.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@gmail.com",
                             NormalizedUserName = "admin@gmail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPUhYVrIZtO+/oIBJuzszWKYc0x0saJAlMIuFEk6+zBVj+WO33Zbk0GWFsIsDp1Piw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEO0AqZ0wWKYxr3lwFOx1KYBrkGyq5eGajw2I/HlEiOCvaRe7WzPd+eX7GJaEJob/fA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "51178ab6-bd01-46bc-ba2e-0ebe4acd7f8d",
+                            SecurityStamp = "10653996-7d96-46a2-98cf-24847766aee7",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -618,7 +848,7 @@ namespace UniAtHome.DAL.Migrations
                         {
                             Id = "BFCC8BAB-AD20-4F70-9CD9-D2003FAE6F09",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "526ac796-3452-4691-b436-f2de533a383b",
+                            ConcurrencyStamp = "2a9ed5f3-406f-44ac-b600-253cc515895e",
                             Email = "uadmin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Vladimir",
@@ -626,9 +856,9 @@ namespace UniAtHome.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "uadmin@gmail.com",
                             NormalizedUserName = "uadmin@gmail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAELqjSPcIqxNutJec7O81smavdMOz0QehobXwA9SZLW4f+sxJ7bAyMwEGOidqKPn5vQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFNAVeeTEeraVmSuRZa33JC2P+1b0+FzlbutopsQsaaxkGpCx5+R07BXpEGeIkILAg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ea57cf58-bc7b-4f7c-92ac-a93d98ef9c2c",
+                            SecurityStamp = "eec56078-e5e4-49ff-8a3a-9585bb9612c9",
                             TwoFactorEnabled = false,
                             UserName = "uadmin@gmail.com"
                         },
@@ -636,7 +866,7 @@ namespace UniAtHome.DAL.Migrations
                         {
                             Id = "E8D13331-62AB-463E-A283-6493B68A3622",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0e8ad5cb-cb0f-48bb-a940-77031dec4bc5",
+                            ConcurrencyStamp = "196a8854-3947-4d30-91ff-7dcf7f235d87",
                             Email = "ihor.juice@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Ihor",
@@ -644,9 +874,9 @@ namespace UniAtHome.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ihor.juice@gmail.com",
                             NormalizedUserName = "ihor.juice@gmail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEllom4tBAESRyu30P+mNUzE4v6w+2zAwH5CEkOCkhy+AM7Ui+baaafEux6tX/i1rg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFtJBgL13oFx0NMa2ut2fOdEucF7b+RL7CAUMqw1R8TiFywJEuv3Pwng7c+zGEU1uA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "006eb7e6-ee3d-4018-998b-bb6f6435a1ae",
+                            SecurityStamp = "efb2dbc6-575c-471d-a36e-fbc9b8f4f45b",
                             TwoFactorEnabled = false,
                             UserName = "ihor.juice@gmail.com"
                         },
@@ -654,7 +884,7 @@ namespace UniAtHome.DAL.Migrations
                         {
                             Id = "E3A6BF34-A57D-4709-97CC-6AD1B2B3985B",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "44a9a43b-083e-4a77-9f4d-309a4fd5d9ba",
+                            ConcurrencyStamp = "d753f9de-7e6e-4a18-9e0f-bb49a3f79bca",
                             Email = "slava.ivanov@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Slava",
@@ -662,12 +892,52 @@ namespace UniAtHome.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "slava.ivanov@gmail.com",
                             NormalizedUserName = "slava.ivanov@gmail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKeqpJVRNeQ96v4JxJYo/xtl7+0/qTtOeNtkoV7Fl2/d2ljobcKtVxE/tuF6YJ5I2Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG41jVVc8bbW7dERIZiyFY7vh8xH+UTKO6Zqs3u4spTlDZx5eTtZllDRVY4CMVl4Cg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2f90ea2b-42af-4470-9c0d-e62d9b8b792a",
+                            SecurityStamp = "dbd16839-dadf-46ca-a4dc-372713cafd89",
                             TwoFactorEnabled = false,
                             UserName = "slava.ivanov@gmail.com"
                         });
+                });
+
+            modelBuilder.Entity("UniAtHome.DAL.Entities.ZoomMeeting", b =>
+                {
+                    b.Property<int>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LessonId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("JoinUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StartUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("ZoomId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("GroupId", "LessonId");
+
+                    b.ToTable("ZoomMeetings");
+                });
+
+            modelBuilder.Entity("UniAtHome.DAL.Entities.ZoomUser", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("ZoomUsers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -815,6 +1085,82 @@ namespace UniAtHome.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("UniAtHome.DAL.Entities.Tests.Test", b =>
+                {
+                    b.HasOne("UniAtHome.DAL.Entities.Course", "Course")
+                        .WithMany("Tests")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UniAtHome.DAL.Entities.Lesson", null)
+                        .WithMany("Tests")
+                        .HasForeignKey("LessonId");
+                });
+
+            modelBuilder.Entity("UniAtHome.DAL.Entities.Tests.TestAnswerVariant", b =>
+                {
+                    b.HasOne("UniAtHome.DAL.Entities.Tests.TestQuestion", "Question")
+                        .WithMany("Answers")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("UniAtHome.DAL.Entities.Tests.TestAnsweredQuestion", b =>
+                {
+                    b.HasOne("UniAtHome.DAL.Entities.Tests.TestAnswerVariant", "AnswerVariant")
+                        .WithMany()
+                        .HasForeignKey("AnswerVariantId");
+
+                    b.HasOne("UniAtHome.DAL.Entities.Tests.TestAttempt", "Attempt")
+                        .WithMany("AnsweredQuestions")
+                        .HasForeignKey("AttemptId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("UniAtHome.DAL.Entities.Tests.TestQuestion", "Question")
+                        .WithMany("AnsweredQuestions")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("UniAtHome.DAL.Entities.Tests.TestAttempt", b =>
+                {
+                    b.HasOne("UniAtHome.DAL.Entities.Tests.Test", "Test")
+                        .WithMany("TestAttempts")
+                        .HasForeignKey("TestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UniAtHome.DAL.Entities.User", "User")
+                        .WithMany("TestAttempts")
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("UniAtHome.DAL.Entities.Tests.TestQuestion", b =>
+                {
+                    b.HasOne("UniAtHome.DAL.Entities.Tests.Test", "Test")
+                        .WithMany("Questions")
+                        .HasForeignKey("TestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("UniAtHome.DAL.Entities.Tests.TestSchedule", b =>
+                {
+                    b.HasOne("UniAtHome.DAL.Entities.Tests.Test", "Test")
+                        .WithMany()
+                        .HasForeignKey("TestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UniAtHome.DAL.Entities.Timetable", "Timetable")
+                        .WithMany("TestSchedules")
+                        .HasForeignKey("TimetableGroupId", "TimetableLessonId");
+                });
+
             modelBuilder.Entity("UniAtHome.DAL.Entities.Timetable", b =>
                 {
                     b.HasOne("UniAtHome.DAL.Entities.Group", "Group")
@@ -828,6 +1174,10 @@ namespace UniAtHome.DAL.Migrations
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.HasOne("UniAtHome.DAL.Entities.ZoomMeeting", "ZoomMeeting")
+                        .WithMany()
+                        .HasForeignKey("ZoomMeetingGroupId", "ZoomMeetingLessonId");
                 });
 
             modelBuilder.Entity("UniAtHome.DAL.Entities.UniversityAdmin", b =>
@@ -841,6 +1191,15 @@ namespace UniAtHome.DAL.Migrations
                     b.HasOne("UniAtHome.DAL.Entities.User", "User")
                         .WithOne()
                         .HasForeignKey("UniAtHome.DAL.Entities.UniversityAdmin", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("UniAtHome.DAL.Entities.ZoomUser", b =>
+                {
+                    b.HasOne("UniAtHome.DAL.Entities.User", "User")
+                        .WithOne()
+                        .HasForeignKey("UniAtHome.DAL.Entities.ZoomUser", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

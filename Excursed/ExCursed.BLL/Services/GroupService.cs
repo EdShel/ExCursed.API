@@ -118,5 +118,20 @@ namespace ExCursed.BLL.Services
                 Students = students
             };
         }
+        public async Task<GroupInfoDTO> GetGroupInfoOrNullByGroupNameAsync(string groupName)
+        {
+            Group group = await groupRepository.GetSingleOrDefaultAsync(g => g.Name == groupName);
+            if (group == null)
+            {
+                return null;
+            }
+
+            return new GroupInfoDTO
+            {
+                Id = group.Id,
+                Name = group.Name,
+                Students = null
+            };
+        }
     }
 }

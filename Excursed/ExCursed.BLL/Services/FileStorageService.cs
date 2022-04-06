@@ -1,22 +1,17 @@
-﻿using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
+﻿using ExCursed.BLL.Interfaces;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
+using System;
+using System.IO;
 using System.Threading.Tasks;
-using ExCursed.BLL.Interfaces;
-using ExCursed.BLL.Options;
 
 namespace ExCursed.BLL.Services
 {
     public class FileStorageService : IFileStorageService
     {
-        private readonly Cloudinary cloudinary;
+        private readonly string filesFolder = "UploadedPhotos";
 
-        public FileStorageService(IOptions<StorageServiceConfig> options)
+        public FileStorageService()
         {
-            var config = options.Value;
-            var account = new Account(config.CloudName, config.ApiKey, config.ApiSecret);
-            this.cloudinary = new Cloudinary(account);
         }
 
         /// <returns>Path to file or null if there is some error</returns>
@@ -24,13 +19,16 @@ namespace ExCursed.BLL.Services
         {
             if (image != null)
             {
-                var uploadResult = await this.cloudinary.UploadAsync(new ImageUploadParams()
+                string fileExtension = Path.GetExtension(image.FileName);
+                string fileName = Guid.NewGuid().ToString() + fileExtension;
+                string filePath = Path.Combine(this.filesFolder, fileName);
+                Directory.CreateDirectory(filesFolder);
+                using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
                 {
-                    File = new FileDescription(image.FileName, image.OpenReadStream()),
-                    PublicId = identifier
-                });
-
-                return uploadResult.StatusCode != System.Net.HttpStatusCode.OK ? null : uploadResult.Url.AbsoluteUri;
+                    var imageStream = image.OpenReadStream();
+                    await imageStream.CopyToAsync(fs);
+                }
+                return filePath;
             }
 
             return null;

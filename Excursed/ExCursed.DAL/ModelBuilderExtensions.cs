@@ -130,9 +130,9 @@ namespace ExCursed.DAL
                 FirstName = firstName,
                 LastName = lastName,
                 UserName = email,
-                NormalizedUserName = email,
+                NormalizedUserName = email.Normalize().ToUpperInvariant(),
                 Email = email,
-                NormalizedEmail = email,
+                NormalizedEmail = email.Normalize().ToUpperInvariant(),
                 PasswordHash = new PasswordHasher<User>().HashPassword(null, password)
             });
             modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>

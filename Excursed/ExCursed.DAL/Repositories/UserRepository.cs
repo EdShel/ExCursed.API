@@ -44,9 +44,9 @@ namespace ExCursed.DAL.Repositories
             return userManager.CheckPasswordAsync(user, password);
         }
 
-        public Task<User> FindByEmailAsync(string email)
+        public async Task<User> FindByEmailAsync(string email)
         {
-            return userManager.FindByEmailAsync(email);
+            return await userManager.FindByEmailAsync(email);
         }
 
         public Task<IList<string>> GetRolesAsync(User user)

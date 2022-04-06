@@ -13,6 +13,8 @@ namespace ExCursed.BLL.Interfaces
 
         Task<GroupInfoDTO> GetGroupInfoAsync(int groupId);
 
+        Task<GroupInfoDTO> GetGroupInfoOrNullByGroupNameAsync(string groupName);
+
         Task RemoveStudentFromGroupAsync(int groupId, string studentId);
     }
 }

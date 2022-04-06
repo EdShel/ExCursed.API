@@ -10,7 +10,7 @@ namespace ExCursed.BLL.Interfaces
 
         Task<CourseDTO> GetCourseWithLessonsByIdAsync(int id);
 
-        Task AddCourseAsync(CourseDTO course);
+        Task<int> AddCourseAsync(CourseDTO course);
 
         Task<IEnumerable<CourseDTO>> GetCoursesByNameAsync(string name);
 

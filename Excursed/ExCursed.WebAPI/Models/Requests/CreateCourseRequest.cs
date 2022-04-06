@@ -11,6 +11,9 @@ namespace ExCursed.WebAPI.Models.Requests
         [Required]
         public string Description { get; set; }
 
+        [Required]
+        public string Students { get; set; }
+
         public IFormFile Image { get; set; }
     }
 }

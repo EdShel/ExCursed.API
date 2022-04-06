@@ -13,6 +13,10 @@ using ExCursed.WebAPI.Models.Course;
 using ExCursed.WebAPI.Models.Requests;
 using ExCursed.WebAPI.Models.Responses.Course;
 using ExCursed.WebAPI.Models.Responses.Lesson;
+using System.Text.RegularExpressions;
+using ExCursed.BLL.Services;
+using ExCursed.DAL.Repositories;
+using Microsoft.Extensions.Logging;
 
 namespace ExCursed.WebAPI.Controllers
 {
@@ -30,18 +34,33 @@ namespace ExCursed.WebAPI.Controllers
 
         private readonly IFileStorageService fileStorageService;
 
+        private readonly IGroupService groupService;
+
+        private readonly IAuthService authService;
+
+        private readonly UserRepository userRepository;
+
+        private readonly IEmailService emailService;
+
+        private readonly ILogger<CourseController> logger;
+
         public CourseController(
-            ICourseService courseService, 
-            IUniversityService universityService, 
+            ICourseService courseService,
+            IUniversityService universityService,
             ITeacherService teacherService,
             IFileStorageService fileStorageService,
-            IMapper mapper)
+            IMapper mapper, IGroupService groupService, IAuthService authService, UserRepository userRepository, IEmailService emailService, ILogger<CourseController> logger)
         {
             this.courseService = courseService;
             this.mapper = mapper;
             this.universityService = universityService;
             this.teacherService = teacherService;
             this.fileStorageService = fileStorageService;
+            this.groupService = groupService;
+            this.authService = authService;
+            this.userRepository = userRepository;
+            this.emailService = emailService;
+            this.logger = logger;
         }
 
         // GET: api/Course/5
@@ -81,19 +100,81 @@ namespace ExCursed.WebAPI.Controllers
         [Authorize(Roles = RoleName.TEACHER)]
         public async Task<IActionResult> CreateCourseAsync([FromForm] CreateCourseRequest request)
         {
-            if (request != null && ModelState.IsValid)
+            if (request == null || !ModelState.IsValid)
             {
-                var courseDto = mapper.Map<CreateCourseRequest, CourseDTO>(request);
-                courseDto.TeacherEmail = User.Identity.Name;
-                courseDto.UniversityId = (await teacherService
-                    .GetTeacherInfoByEmailAsync(User.Identity.Name)).UniversityId;
-                courseDto.ImagePath = request.Image != null ?
-                    await fileStorageService.SaveImageAsync(Guid.NewGuid() + request.Image.FileName, request.Image) : null;
-                await courseService.AddCourseAsync(courseDto);
-                return Ok();
+                return BadRequest();
+            }
+            var courseDto = mapper.Map<CreateCourseRequest, CourseDTO>(request);
+            courseDto.TeacherEmail = User.Identity.Name;
+            courseDto.UniversityId = (await teacherService
+                .GetTeacherInfoByEmailAsync(User.Identity.Name)).UniversityId;
+            courseDto.ImagePath = request.Image != null ?
+                await fileStorageService.SaveImageAsync(Guid.NewGuid() + request.Image.FileName, request.Image) : null;
+            int courseId = await courseService.AddCourseAsync(courseDto);
+
+            Regex studentsRegex = new Regex(@"^(.+?)\s(.+)$");
+            Regex nameSurnameRegex = new Regex(@"\w+");
+            var passwordGenerator = new PasswordGenerator();
+            foreach (Match match in studentsRegex.Matches(request.Students))
+            {
+                string studentEmail = match.Groups[1].Value;
+                string groupName = match.Groups[2].Value;
+
+                var groupInfo = await groupService.GetGroupInfoOrNullByGroupNameAsync(groupName);
+                int groupId;
+                if (groupInfo == null)
+                {
+                    groupId = await groupService.AddGroupAsync(new BLL.DTOs.Group.CreateGroupDTO
+                    {
+                        CourseId = courseId,
+                        Name = groupName,
+                        TeacherEmail = User.Identity.Name
+                    });
+                }
+                else
+                {
+                    groupId = groupInfo.Id;
+                }
+
+                MatchCollection nameSurnameMatches = nameSurnameRegex.Matches(studentEmail);
+                if (nameSurnameMatches.Count < 2)
+                {
+                    throw new BadRequestException(
+                        $"Student email {studentEmail} is invalid (doesn't contain at least 2 words).");
+                }
+
+                var existingStudent = await userRepository.FindByEmailAsync(studentEmail);
+                if (existingStudent == null)
+                {
+                    var newStudentModel = new BLL.DTOs.Auth.StudentRegistrationDTO
+                    {
+                        Email = studentEmail,
+                        Password = passwordGenerator.GeneratePassword(),
+                        FirstName = CapitalizeFirstChar(nameSurnameMatches[0].Value),
+                        LastName = CapitalizeFirstChar(nameSurnameMatches[1].Value),
+                        UniversityId = 1
+                    };
+                    await authService.RegisterStudentAsync(newStudentModel);
+
+                    logger.LogInformation("Password for new user {Email} is {Password}", newStudentModel.Email, newStudentModel.Password);
+                    await emailService.SendAsync(studentEmail,
+                        "ExCursed | Registration",
+                        $@"You've been registered in ExCursed's course <i>${request.Title}.<i/><br/> You can use this password to sign in: <b>${newStudentModel.Email}</b>");
+                }
+                else
+                {
+                    await emailService.SendAsync(studentEmail,
+                        "ExCursed | Applied for the course",
+                        $@"You were added to the course <i>${request.Title}.<i/> You can sign in using your existing account's credentials.");
+                }
             }
 
-            return BadRequest();
+            return Ok();
+        }
+
+        private static string CapitalizeFirstChar(string str)
+        {
+            return str[0].ToString().ToUpperInvariant() + str.Substring(1).ToLowerInvariant();
         }
 
         [HttpDelete("{id}")]

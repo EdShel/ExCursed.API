@@ -30,41 +30,37 @@ namespace ExCursed.WebAPI.Controllers
             this.mapper = mapper;
         }
 
-        [Authorize(Roles = RoleName.ADMIN)]
-        [HttpPost("registerAdmin")]
-        public async Task<ActionResult> RegisterAdminAsync([FromBody] AdminRegistrationRequest request)
-        {
-            var dto = mapper.Map<AdminRegistrationDTO>(request);
-            await authService.RegisterAdminAsync(dto);
+        //[Authorize(Roles = RoleName.ADMIN)]
+        //[HttpPost("registerAdmin")]
+        //public async Task<ActionResult> RegisterAdminAsync([FromBody] AdminRegistrationRequest request)
+        //{
+        //    var dto = mapper.Map<AdminRegistrationDTO>(request);
+        //    await authService.RegisterAdminAsync(dto);
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
-        [Authorize(Roles = RoleName.ADMIN + "," + RoleName.UNIVERSITY_ADMIN)]
-        [HttpPost("registerUniversityAdmin")]
-        public async Task<ActionResult> RegisterUniversityAdminAsync([FromBody] UniversityAdminRegistrationRequest request)
-        {
-            if (!await User.IsUniversityAdminOrHigherAsync(request.UniversityId, universityService))
-            {
-                throw new ForbiddenException("Don't have rights!");
-            }
+        //[Authorize(Roles = RoleName.ADMIN + "," + RoleName.UNIVERSITY_ADMIN)]
+        //[HttpPost("registerUniversityAdmin")]
+        //public async Task<ActionResult> RegisterUniversityAdminAsync([FromBody] UniversityAdminRegistrationRequest request)
+        //{
+        //    if (!await User.IsUniversityAdminOrHigherAsync(request.UniversityId, universityService))
+        //    {
+        //        throw new ForbiddenException("Don't have rights!");
+        //    }
 
-            var dto = mapper.Map<UniversityAdminRegistrationDTO>(request);
-            await authService.RegisterUniversityAdminAsync(dto);
+        //    var dto = mapper.Map<UniversityAdminRegistrationDTO>(request);
+        //    await authService.RegisterUniversityAdminAsync(dto);
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
-        [Authorize(Roles = RoleName.ADMIN + "," + RoleName.UNIVERSITY_ADMIN)]
+        [AllowAnonymous]
         [HttpPost("registerTeacher")]
         public async Task<ActionResult> RegisterTeacherAsync([FromBody] TeacherRegistrationRequest request)
         {
-            if (!await User.IsUniversityAdminOrHigherAsync(request.UniversityId, universityService))
-            {
-                throw new ForbiddenException("Don't have rights!");
-            }
-
             var dto = mapper.Map<TeacherRegistrationDTO>(request);
+            dto.UniversityId = 1;
             await authService.RegisterTeacherAsync(dto);
 
             return Ok();

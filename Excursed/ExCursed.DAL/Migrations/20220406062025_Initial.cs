@@ -635,42 +635,42 @@ namespace ExCursed.DAL.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "2AEFE1C5-C5F0-4399-8FB8-420813567554", "82ee708a-b810-4856-9d89-f6db0d111cb6", "Admin", "ADMIN" });
+                values: new object[] { "2AEFE1C5-C5F0-4399-8FB8-420813567554", "abd8293c-5007-4749-b101-a7ca10d91e9c", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "99DA7670-5471-414F-834E-9B3A6B6C8F6F", "96e65e2f-dceb-4dd0-8562-136420156b72", "UniversityAdmin", "UNIVERSITYADMIN" });
+                values: new object[] { "99DA7670-5471-414F-834E-9B3A6B6C8F6F", "872f98b6-a513-4c87-9cb7-31a0b56d542f", "UniversityAdmin", "UNIVERSITYADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "828A3B02-77C0-45C1-8E97-6ED57711E577", "2c084975-ac8d-49a3-8513-f8367436613e", "Teacher", "TEACHER" });
+                values: new object[] { "828A3B02-77C0-45C1-8E97-6ED57711E577", "8c95341d-3507-4021-a131-e58252fa48be", "Teacher", "TEACHER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "422EEB6A-3031-4B66-ABA8-0F85AFC07C3C", "ed75b8da-daa9-4bac-9f9f-191be388a844", "Student", "STUDENT" });
+                values: new object[] { "422EEB6A-3031-4B66-ABA8-0F85AFC07C3C", "be32e3f3-363e-4dc0-a4d0-e66f7193b70b", "Student", "STUDENT" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "00CA41A9-C962-4230-937E-D5F54772C062", 0, "536803e9-5ad4-4943-a9de-cd4750929e89", "admin@gmail.com", false, "Admin", "Adminovich", false, null, "admin@gmail.com", "admin@gmail.com", "AQAAAAEAACcQAAAAEGTxPOzXhLK7hW8gHLbVeLtAQGc4Pc36eHxMeMiDC1KQzGPdQjTALJSF2cODWE0VFQ==", null, false, "8a70cf70-72d6-4a79-a7a2-a1ea01689f83", false, "admin@gmail.com" });
+                values: new object[] { "00CA41A9-C962-4230-937E-D5F54772C062", 0, "a26a1be5-a103-4e8b-8d13-a6a23e585d0e", "admin@gmail.com", false, "Admin", "Adminovich", false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAEAACcQAAAAEOf+3JrEIi60CGWFiLTGSsP1rmxPRxn+tbuQIJVyGxO7ZAnr+FBAg0uK2Wcm4PEnqw==", null, false, "de5eca2f-8f7a-4061-8273-ba2c17cb1840", false, "admin@gmail.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "BFCC8BAB-AD20-4F70-9CD9-D2003FAE6F09", 0, "78a9827b-1b0a-45c4-9e81-75ef179e1aa1", "uadmin@gmail.com", false, "Vladimir", "Bream", false, null, "uadmin@gmail.com", "uadmin@gmail.com", "AQAAAAEAACcQAAAAEEa/t/5IALJw54ENfWj2GiwnXYB/DqkWB8Zu0RJ2ElwgM9gO6o3g1iUl1R4ruCSNPw==", null, false, "7509762c-0cf2-46ed-9f12-41f36ff8832f", false, "uadmin@gmail.com" });
+                values: new object[] { "BFCC8BAB-AD20-4F70-9CD9-D2003FAE6F09", 0, "da0c839e-7ce5-475a-8bf2-60b8edfa6ae5", "uadmin@gmail.com", false, "Vladimir", "Bream", false, null, "UADMIN@GMAIL.COM", "UADMIN@GMAIL.COM", "AQAAAAEAACcQAAAAEPctDLxgQJ7bNQcMg91oQIXBSm8YxJOrUFvTGNQGYDdgja8pV5RFD8kSjnsHDnfgow==", null, false, "c87bee6c-df8e-490a-8f00-49ace9cb68be", false, "uadmin@gmail.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "E8D13331-62AB-463E-A283-6493B68A3622", 0, "e942ea5f-70d6-433d-9186-b8d9c8848b90", "ihor.juice@gmail.com", false, "Ihor", "Juice", false, null, "ihor.juice@gmail.com", "ihor.juice@gmail.com", "AQAAAAEAACcQAAAAECT82rfjHXIzoC6a4EiPU5SzlNb9Y0Up4ih7v5Xy6VcX/eW3YT1wxkTQujnsOCA78Q==", null, false, "55bc249b-86ef-4a01-a3b7-6e380fa0d2f1", false, "ihor.juice@gmail.com" });
+                values: new object[] { "E8D13331-62AB-463E-A283-6493B68A3622", 0, "8317d3ef-7641-4c38-9c02-c6ba74839e9e", "ihor.juice@gmail.com", false, "Ihor", "Juice", false, null, "IHOR.JUICE@GMAIL.COM", "IHOR.JUICE@GMAIL.COM", "AQAAAAEAACcQAAAAEMQLj28p+8n5q5R1FTb5a+yZSBs8Q8DADKwATs09o/pBVzYlAXFnvxx3J88ifqvi1A==", null, false, "0aac2288-ea39-473f-9647-765487e5cd05", false, "ihor.juice@gmail.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "E3A6BF34-A57D-4709-97CC-6AD1B2B3985B", 0, "aa23887a-e74e-4d68-a24b-22bb7aea50c8", "slava.ivanov@gmail.com", false, "Slava", "Ivanov", false, null, "slava.ivanov@gmail.com", "slava.ivanov@gmail.com", "AQAAAAEAACcQAAAAEBv6MYjFhPgyATeL5uv/UZXUhjJWUD+rsy0lKJAy7Ki4knOnEZQFH0x2jbECiTm2Ig==", null, false, "6ebb7b69-de69-4cdb-83af-0f84c992c579", false, "slava.ivanov@gmail.com" });
+                values: new object[] { "E3A6BF34-A57D-4709-97CC-6AD1B2B3985B", 0, "c382e459-25ac-4406-a8f9-df41b31b7dc7", "slava.ivanov@gmail.com", false, "Slava", "Ivanov", false, null, "SLAVA.IVANOV@GMAIL.COM", "SLAVA.IVANOV@GMAIL.COM", "AQAAAAEAACcQAAAAEDYgYTRwgHeumuDBLv/0LPO7Sa2V+MW2lEOj0BfShs7AvCM8MwxSwdiIIUJXz59TMg==", null, false, "0483845e-7bbe-4a84-86b2-c516a68ccba1", false, "slava.ivanov@gmail.com" });
 
             migrationBuilder.InsertData(
                 table: "Universities",

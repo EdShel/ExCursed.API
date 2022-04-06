@@ -16,8 +16,8 @@ namespace ExCursed.WebAPI
             .ConfigureAppConfiguration((hostingContext, config) =>
             {
                 config.AddJsonFile("confidsettings.json",
-                    optional: false,
-                    reloadOnChange: true);
+                    optional: true,
+                    reloadOnChange: false);
             })
             .ConfigureWebHostDefaults(webBuilder =>
             {

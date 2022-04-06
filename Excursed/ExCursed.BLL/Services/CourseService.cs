@@ -47,7 +47,7 @@ namespace ExCursed.BLL.Services
             return mapper.Map<CourseDTO>(course);
         }
 
-        public async Task AddCourseAsync(CourseDTO courseDto)
+        public async Task<int> AddCourseAsync(CourseDTO courseDto)
         {
             var course = mapper.Map<Course>(courseDto);
             var teacherId = (await userRepository.FindByEmailAsync(courseDto.TeacherEmail)).Id;
@@ -58,6 +58,8 @@ namespace ExCursed.BLL.Services
                 });
             await courseRepository.AddAsync(course);
             await courseRepository.SaveChangesAsync();
+
+            return course.Id;
         }
 
         public async Task<bool> DeleteCourseAsync(int id)

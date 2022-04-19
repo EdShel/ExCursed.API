@@ -7,25 +7,25 @@ using ExCursed.WebAPI.Models.Zoom;
 
 namespace ExCursed.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController, Authorize]
-    public class ZoomController : ControllerBase
-    {
-        private readonly IZoomAuthService zoomAuthService;
+    //[Route("api/[controller]")]
+    //[ApiController, Authorize]
+    //public class ZoomController : ControllerBase
+    //{
+    //    private readonly IZoomAuthService zoomAuthService;
 
-        private readonly ZoomMeetingService meetingService;
+    //    private readonly ZoomMeetingService meetingService;
 
-        public ZoomController(IZoomAuthService zoomAuthService, ZoomMeetingService meetingService)
-        {
-            this.zoomAuthService = zoomAuthService;
-            this.meetingService = meetingService;
-        }
+    //    public ZoomController(IZoomAuthService zoomAuthService, ZoomMeetingService meetingService)
+    //    {
+    //        this.zoomAuthService = zoomAuthService;
+    //        this.meetingService = meetingService;
+    //    }
 
-        [HttpPost("authorized")]
-        public async Task<IActionResult> OnAuthorized([FromBody] ZoomAuthorizedRequest request)
-        {
-            await zoomAuthService.AuthorizeAsync(User.Identity.Name, request.Code);
-            return Ok();
-        }
-    }
+    //    [HttpPost("authorized")]
+    //    public async Task<IActionResult> OnAuthorized([FromBody] ZoomAuthorizedRequest request)
+    //    {
+    //        await zoomAuthService.AuthorizeAsync(User.Identity.Name, request.Code);
+    //        return Ok();
+    //    }
+    //}
 }

@@ -13,5 +13,7 @@ namespace ExCursed.DAL.Entities
         public CourseMember CourseMember { get; set; }
 
         public List<Timetable> Timetables { get; set; }
+
+        public List<PublicationGroup> PublicationGroups { get; set; }
     }
 }

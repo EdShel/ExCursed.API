@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using ExCursed.DAL.Entities;
+using ExCursed.DAL.Entities.Tests;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using ExCursed.DAL.Entities;
-using ExCursed.DAL.Entities.Tests;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ExCursed.DAL
 {
@@ -153,6 +153,10 @@ namespace ExCursed.DAL
                 .HasOne(g => g.CourseMember)
                 .WithMany(cm => cm.Groups)
                 .HasForeignKey(g => g.CourseMemberId);
+            modelBuilder.Entity<Group>()
+                .HasMany(g => g.PublicationGroups)
+                .WithOne(p => p.Group)
+                .HasForeignKey(g => g.GroupId);
 
             //StudentGroup
             modelBuilder.Entity<StudentGroup>().HasKey(sg => new { sg.StudentId, sg.GroupId });
@@ -234,6 +238,26 @@ namespace ExCursed.DAL
                 .HasOne(aq => aq.Question)
                 .WithMany(q => q.AnsweredQuestions);
 
+            // Publication
+            modelBuilder.Entity<Publication>().HasKey(p => p.Id);
+            modelBuilder.Entity<Publication>().HasOne(p => p.Course).WithMany(c => c.Publications);
+            modelBuilder.Entity<Publication>()
+                .HasMany(p => p.PublicationGroups)
+                .WithOne(g => g.Publication)
+                .HasForeignKey(g => g.PublicationId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Publication group
+            modelBuilder.Entity<PublicationGroup>()
+                .HasKey(g => new { g.PublicationId, g.GroupId });
+
+            // Publication material
+            modelBuilder.Entity<PublicationMaterial>().HasKey(p => p.Id);
+            modelBuilder.Entity<PublicationMaterial>()
+                .HasOne(p => p.Publication)
+                .WithMany(p => p.Materials)
+                .HasForeignKey(p => p.PublicationId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -250,7 +274,7 @@ namespace ExCursed.DAL
 
         private void UpdateAuditableEntity()
         {
-            foreach (var auditableEntity in ChangeTracker.Entries<BaseAuditableEntity>())
+            foreach (var auditableEntity in this.ChangeTracker.Entries<BaseAuditableEntity>())
             {
                 if (auditableEntity.State == EntityState.Added || auditableEntity.State == EntityState.Modified)
                 {

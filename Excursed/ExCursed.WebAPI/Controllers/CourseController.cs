@@ -17,6 +17,8 @@ using System.Text.RegularExpressions;
 using ExCursed.BLL.Services;
 using ExCursed.DAL.Repositories;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using ExCursed.DAL.Entities;
 
 namespace ExCursed.WebAPI.Controllers
 {
@@ -44,12 +46,14 @@ namespace ExCursed.WebAPI.Controllers
 
         private readonly ILogger<CourseController> logger;
 
+        private readonly DbContext dbContext;
+
         public CourseController(
             ICourseService courseService,
             IUniversityService universityService,
             ITeacherService teacherService,
             IFileStorageService fileStorageService,
-            IMapper mapper, IGroupService groupService, IAuthService authService, UserRepository userRepository, IEmailService emailService, ILogger<CourseController> logger)
+            IMapper mapper, IGroupService groupService, IAuthService authService, UserRepository userRepository, IEmailService emailService, ILogger<CourseController> logger, DbContext dbContext)
         {
             this.courseService = courseService;
             this.mapper = mapper;
@@ -61,39 +65,61 @@ namespace ExCursed.WebAPI.Controllers
             this.userRepository = userRepository;
             this.emailService = emailService;
             this.logger = logger;
+            this.dbContext = dbContext;
         }
 
         // GET: api/Course/5
         [HttpGet("{id}")]
+        [Produces(typeof(CourseReadModel))]
         public async Task<IActionResult> GetCourseByIdAsync(int id)
         {
             var course = await courseService.GetCourseByIdAsync(id);
-            if (course != null)
+            if (course == null)
             {
-                return Ok(course);
+                return BadRequest();
             }
 
-            return BadRequest();
+            var publications = await dbContext.Set<Publication>()
+                .Where(p => p.CourseId == id)
+                .Include(p => p.Materials)
+                .Include(p => p.PublicationGroups)
+                .ThenInclude(pg => pg.Group)
+                .Include(p => p.Course)
+                .OrderByDescending(p => p.Added)
+                .ToListAsync();
+            var publcicationsModel = mapper.Map<IEnumerable<PublicationModel>>(publications);
+
+            return Ok(new CourseReadModel
+            {
+                Course = course,
+                Publications = publcicationsModel
+            });
+        }
+
+        public class CourseReadModel
+        {
+            public CourseDTO Course { get; set; }
+            public IEnumerable<PublicationModel> Publications { get; set; }
         }
 
         // GET: api/Course/5
-        [HttpGet("{id}/Lessons")]
-        public async Task<IActionResult> GetCourseWithLessonsByIdAsync(int id)
-        {
-            var course = await courseService.GetCourseWithLessonsByIdAsync(id);
-            if (course != null)
-            {
-                CourseWithLessonsResponse response = new CourseWithLessonsResponse
-                {
-                    Course = mapper.Map<CourseResponse>(course),
-                    ListLessons = mapper.Map<IEnumerable<LessonResponse>>(course.Lessons)
-                };
+        //[HttpGet("{id}/Lessons")]
+        //public async Task<IActionResult> GetCourseWithLessonsByIdAsync(int id)
+        //{
+        //    var course = await courseService.GetCourseWithLessonsByIdAsync(id);
+        //    if (course != null)
+        //    {
+        //        CourseWithLessonsResponse response = new CourseWithLessonsResponse
+        //        {
+        //            Course = mapper.Map<CourseResponse>(course),
+        //            ListLessons = mapper.Map<IEnumerable<LessonResponse>>(course.Lessons)
+        //        };
 
-                return Ok(response);
-            }
+        //        return Ok(response);
+        //    }
 
-            return BadRequest();
-        }
+        //    return BadRequest();
+        //}
 
         // POST: api/Course
         [HttpPost]
@@ -109,7 +135,7 @@ namespace ExCursed.WebAPI.Controllers
             courseDto.UniversityId = (await teacherService
                 .GetTeacherInfoByEmailAsync(User.Identity.Name)).UniversityId;
             courseDto.ImagePath = request.Image != null ?
-                await fileStorageService.SaveImageAsync(Guid.NewGuid() + request.Image.FileName, request.Image) : null;
+                await fileStorageService.SaveFileAsync(Guid.NewGuid() + request.Image.FileName, request.Image) : null;
             int courseId = await courseService.AddCourseAsync(courseDto);
 
             Regex studentsRegex = new Regex(@"^(.+?)\s(.+)$");
@@ -120,7 +146,7 @@ namespace ExCursed.WebAPI.Controllers
                 string studentEmail = match.Groups[1].Value;
                 string groupName = match.Groups[2].Value;
 
-                var groupInfo = await groupService.GetGroupInfoOrNullByGroupNameAsync(groupName);
+                var groupInfo = await groupService.GetGroupInfoOrNullByGroupNameAsync(courseId, groupName);
                 int groupId;
                 if (groupInfo == null)
                 {

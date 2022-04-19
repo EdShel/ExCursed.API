@@ -6,21 +6,21 @@ using ExCursed.BLL.Interfaces;
 
 namespace ExCursed.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UniversityController : ControllerBase
-    {
-        private readonly IUniversityService universityService;
+    //[Route("api/[controller]")]
+    //[ApiController]
+    //public class UniversityController : ControllerBase
+    //{
+    //    private readonly IUniversityService universityService;
 
-        public UniversityController(IUniversityService universityService)
-        {
-            this.universityService = universityService;
-        }
+    //    public UniversityController(IUniversityService universityService)
+    //    {
+    //        this.universityService = universityService;
+    //    }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<UniversityDTO>>> GetAll()
-        {
-            return Ok(await universityService.GetUniversities());
-        }
-    }
+    //    [HttpGet]
+    //    public async Task<ActionResult<IEnumerable<UniversityDTO>>> GetAll()
+    //    {
+    //        return Ok(await universityService.GetUniversities());
+    //    }
+    //}
 }

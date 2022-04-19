@@ -34,12 +34,21 @@ namespace ExCursed.WebAPI.Controllers
         }
 
         [HttpGet("courses")]
-        [Authorize(Roles=RoleName.TEACHER)]
+        [Authorize(Roles = RoleName.TEACHER)]
+        [Produces(typeof(TeacherCoursesReadModel))]
         public async Task<ObjectResult> GetCoursesForUserAsync()
         {
             var coursesRequest = new TeachersCoursesRequest { TeacherEmail = User.Identity.Name };
             var coursesResponse = mapper.Map<IEnumerable<CourseResponse>>(await teacherService.GetTeahersCoursesAsync(coursesRequest));
-            return Ok(coursesResponse);
+            return Ok(new TeacherCoursesReadModel
+            {
+                Courses = coursesResponse
+            });
+        }
+
+        public class TeacherCoursesReadModel
+        {
+            public IEnumerable<CourseResponse> Courses { get; set; }
         }
     }
 }

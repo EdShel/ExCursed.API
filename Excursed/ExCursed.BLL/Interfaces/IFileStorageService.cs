@@ -5,6 +5,6 @@ namespace ExCursed.BLL.Interfaces
 {
     public interface IFileStorageService
     {
-        Task<string> SaveImageAsync(string identifier, IFormFile image);
+        Task<string> SaveFileAsync(string identifier, IFormFile image);
     }
 }

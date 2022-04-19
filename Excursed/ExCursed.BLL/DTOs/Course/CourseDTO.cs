@@ -18,7 +18,5 @@ namespace ExCursed.BLL.DTOs.Course
         public string ImagePath { get; set; }
 
         public int UniversityId { get; set; }
-
-        public IEnumerable<LessonDTO> Lessons { get; set; } = new List<LessonDTO>();
     }
 }

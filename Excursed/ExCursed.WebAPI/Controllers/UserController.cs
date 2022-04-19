@@ -66,20 +66,20 @@ namespace ExCursed.WebAPI.Controllers
             return Ok();
         }
 
-        [Authorize(Roles = RoleName.ADMIN + "," + RoleName.UNIVERSITY_ADMIN)]
-        [HttpPost("registerStudent")]
-        public async Task<ActionResult> RegisterStudentAsync([FromBody] StudentRegistrationRequest request)
-        {
-            if (!await User.IsUniversityAdminOrHigherAsync(request.UniversityId, universityService))
-            {
-                throw new ForbiddenException("Don't have rights!");
-            }
+        //[Authorize(Roles = RoleName.ADMIN + "," + RoleName.UNIVERSITY_ADMIN)]
+        //[HttpPost("registerStudent")]
+        //public async Task<ActionResult> RegisterStudentAsync([FromBody] StudentRegistrationRequest request)
+        //{
+        //    if (!await User.IsUniversityAdminOrHigherAsync(request.UniversityId, universityService))
+        //    {
+        //        throw new ForbiddenException("Don't have rights!");
+        //    }
 
-            var dto = mapper.Map<StudentRegistrationDTO>(request);
-            await authService.RegisterStudentAsync(dto);
+        //    var dto = mapper.Map<StudentRegistrationDTO>(request);
+        //    await authService.RegisterStudentAsync(dto);
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
         [AllowAnonymous]
         [HttpPost("login")]
@@ -162,18 +162,18 @@ namespace ExCursed.WebAPI.Controllers
             });
         }
 
-        [Authorize]
-        [HttpGet("check")]
-        public ActionResult<string> CheckAuthorization()
-        {
-            return Ok();
-        }
+        //[Authorize]
+        //[HttpGet("check")]
+        //public ActionResult<string> CheckAuthorization()
+        //{
+        //    return Ok();
+        //}
 
-        [Authorize(Roles = "Admin")]
-        [HttpGet("checkAdmin")]
-        public ActionResult<string> CheckAdmin()
-        {
-            return Ok();
-        }
+        //[Authorize(Roles = "Admin")]
+        //[HttpGet("checkAdmin")]
+        //public ActionResult<string> CheckAdmin()
+        //{
+        //    return Ok();
+        //}
     }
 }

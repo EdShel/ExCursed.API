@@ -15,7 +15,7 @@ namespace ExCursed.BLL.Services
         }
 
         /// <returns>Path to file or null if there is some error</returns>
-        public async Task<string> SaveImageAsync(string identifier, IFormFile image)
+        public async Task<string> SaveFileAsync(string identifier, IFormFile image)
         {
             if (image != null)
             {

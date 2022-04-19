@@ -9,6 +9,7 @@ using ExCursed.BLL.DTOs.UniversityRequest;
 using ExCursed.BLL.DTOs.Zoom;
 using ExCursed.DAL.Entities;
 using ExCursed.DAL.Entities.Tests;
+using ExCursed.WebAPI.Controllers;
 using ExCursed.WebAPI.Models.Requests;
 using ExCursed.WebAPI.Models.Responses.Course;
 using ExCursed.WebAPI.Models.Responses.Lesson;
@@ -16,6 +17,8 @@ using ExCursed.WebAPI.Models.Test;
 using ExCursed.WebAPI.Models.Timetable;
 using ExCursed.WebAPI.Models.UniversityCreation;
 using ExCursed.WebAPI.Models.Users;
+using System.IO;
+using System.Linq;
 
 namespace ExCursed.WebAPI.Configuration
 {
@@ -31,9 +34,11 @@ namespace ExCursed.WebAPI.Configuration
                 opt => opt.MapFrom(src => src.Title));
             CreateMap<CreateLessonRequest, LessonDTO>();
 
-            CreateMap<CourseDTO, CourseResponse>().ForMember(
-                dest => dest.Title,
-                opt => opt.MapFrom(src => src.Name));
+            CreateMap<CourseDTO, CourseResponse>()
+                .ForMember(
+                    dest => dest.Title,
+                    opt => opt.MapFrom(src => src.Name))
+                .ForMember(d => d.ImagePath, opt => opt.MapFrom(src => Path.GetFullPath(src.ImagePath)));
             CreateMap<LessonDTO, LessonResponse>();
             CreateMap<Group, GroupDTO>();
 
@@ -84,6 +89,14 @@ namespace ExCursed.WebAPI.Configuration
             CreateMap<Test, TestFullDTO>();
             CreateMap<TestQuestion, TestFullDTO.QuestionDTO>();
             CreateMap<TestAnswerVariant, TestFullDTO.AnswerDTO>();
+
+            CreateMap<Publication, PublicationModel>()
+                .ForMember(
+                    p => p.PublicationGroups, 
+                    opt => opt.MapFrom(g => g.PublicationGroups.Select(gr => gr.Group)));
+            CreateMap<PublicationMaterial, PublicationMaterialModel>()
+                .ForMember(p => p.Url, opt => opt.MapFrom(m => Path.GetFullPath(m.Url)));
+            CreateMap<PublicationGroup, PublicationGroupModel>();
         }
     }
 }

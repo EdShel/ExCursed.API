@@ -273,7 +273,7 @@ namespace ExCursed.WebAPI.Controllers
 
         [HttpGet("{id}/groups")]
         [Produces(typeof(GroupsListModel))]
-        public async Task<IActionResult> GetCourseGroups(int id)
+        public IActionResult GetCourseGroups(int id)
         {
             IEnumerable<GroupDTO> groups = courseService.GetCourseGroups(id);
             IEnumerable<PublicationGroupModel> models = mapper.Map<IEnumerable<PublicationGroupModel>>(groups);

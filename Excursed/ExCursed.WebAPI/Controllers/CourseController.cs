@@ -8,6 +8,7 @@ using ExCursed.DAL.Entities;
 using ExCursed.DAL.Repositories;
 using ExCursed.WebAPI.Models.Course;
 using ExCursed.WebAPI.Models.Requests;
+using ExCursed.WebAPI.Models.Responses.Course;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -88,17 +89,22 @@ namespace ExCursed.WebAPI.Controllers
                 .ToList();
             var publcicationsModel = this.mapper.Map<IEnumerable<PublicationModel>>(publications);
 
+            IEnumerable<GroupDTO> groups = courseService.GetCourseGroups(id);
+            IEnumerable<PublicationGroupModel> groupsModels = mapper.Map<IEnumerable<PublicationGroupModel>>(groups);
+
             return Ok(new CourseReadModel
             {
-                Course = course,
-                Publications = publcicationsModel
+                Course = mapper.Map<CourseResponse>(course),
+                Publications = publcicationsModel,
+                Groups = groupsModels
             });
         }
 
         public class CourseReadModel
         {
-            public CourseDTO Course { get; set; }
+            public CourseResponse Course { get; set; }
             public IEnumerable<PublicationModel> Publications { get; set; }
+            public IEnumerable<PublicationGroupModel> Groups { get; set; }
         }
 
         // GET: api/Course/5
@@ -263,6 +269,20 @@ namespace ExCursed.WebAPI.Controllers
                 t.FirstName,
                 t.LastName
             }));
+        }
+
+        [HttpGet("{id}/groups")]
+        [Produces(typeof(GroupsListModel))]
+        public async Task<IActionResult> GetCourseGroups(int id)
+        {
+            IEnumerable<GroupDTO> groups = courseService.GetCourseGroups(id);
+            IEnumerable<PublicationGroupModel> models = mapper.Map<IEnumerable<PublicationGroupModel>>(groups);
+            return Ok(new GroupsListModel { Groups = models });
+        }
+
+        class GroupsListModel
+        {
+            public IEnumerable<PublicationGroupModel> Groups { get; set; }
         }
     }
 }

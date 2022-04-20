@@ -94,8 +94,9 @@ namespace ExCursed.WebAPI.Controllers
             };
 
             await this.dbContext.Set<Publication>().AddAsync(publication);
+            await this.dbContext.SaveChangesAsync();
 
-            foreach (var material in createModel.Materials)
+            foreach (var material in createModel.Materials ?? Enumerable.Empty<IFormFile>())
             {
                 string fileId = Guid.NewGuid().ToString();
                 string fileUrl = await this.fileStorageService.SaveFileAsync(fileId, material);

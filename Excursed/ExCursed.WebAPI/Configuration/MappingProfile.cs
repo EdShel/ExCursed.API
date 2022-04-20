@@ -39,6 +39,11 @@ namespace ExCursed.WebAPI.Configuration
                     dest => dest.Title,
                     opt => opt.MapFrom(src => src.Name))
                 .ForMember(d => d.ImagePath, opt => opt.MapFrom(src => FileController.GetFileLink(src.ImagePath)));
+            CreateMap<Course, CourseResponse>()
+                .ForMember(
+                    dest => dest.Title,
+                    opt => opt.MapFrom(src => src.Name))
+                .ForMember(d => d.ImagePath, opt => opt.MapFrom(src => FileController.GetFileLink(src.ImagePath)));
             CreateMap<LessonDTO, LessonResponse>();
             CreateMap<Group, GroupDTO>();
 
@@ -90,13 +95,15 @@ namespace ExCursed.WebAPI.Configuration
             CreateMap<TestQuestion, TestFullDTO.QuestionDTO>();
             CreateMap<TestAnswerVariant, TestFullDTO.AnswerDTO>();
 
-            CreateMap<Publication, PublicationModel>()
-                .ForMember(
-                    p => p.PublicationGroups, 
-                    opt => opt.MapFrom(g => g.PublicationGroups.Select(gr => gr.Group)));
+            CreateMap<Publication, PublicationModel>();
             CreateMap<PublicationMaterial, PublicationMaterialModel>()
                 .ForMember(p => p.Url, opt => opt.MapFrom(m => FileController.GetFileLink(m.Url)));
-            CreateMap<PublicationGroup, PublicationGroupModel>();
+            CreateMap<Group, PublicationGroupModel>();
+            CreateMap<PublicationGroup, PublicationGroupModel>()
+                .ForMember(m => m.Id, opt => opt.MapFrom(g => g.Group.Id))
+                .ForMember(m => m.Name, opt => opt.MapFrom(g => g.Group.Name))
+                ;
+            CreateMap<GroupDTO, PublicationGroupModel>();
         }
     }
 }

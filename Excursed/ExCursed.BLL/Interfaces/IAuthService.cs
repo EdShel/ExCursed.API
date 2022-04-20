@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using ExCursed.BLL.DTOs.Auth;
+using ExCursed.DAL.Entities;
 
 namespace ExCursed.BLL.Interfaces
 {
@@ -11,7 +12,7 @@ namespace ExCursed.BLL.Interfaces
 
         Task RegisterTeacherAsync(TeacherRegistrationDTO request);
 
-        Task RegisterStudentAsync(StudentRegistrationDTO request);
+        Task<User> RegisterStudentAsync(StudentRegistrationDTO request);
 
         Task<LoginResponseDTO> LoginAsync(LoginRequestDTO request);
 

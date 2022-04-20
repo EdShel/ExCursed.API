@@ -91,7 +91,7 @@ namespace ExCursed.BLL.Services
             await teachersRepository.SaveChangesAsync();
         }
 
-        public async Task RegisterStudentAsync(StudentRegistrationDTO request)
+        public async Task<User> RegisterStudentAsync(StudentRegistrationDTO request)
         {
             University university = await universityRepository.GetByIdAsync(request.UniversityId);
             if (university == null)
@@ -107,6 +107,8 @@ namespace ExCursed.BLL.Services
                 UniversityId = request.UniversityId
             });
             await studentsRepository.SaveChangesAsync();
+
+            return studentUser;
         }
 
         private async Task<User> RegisterAsync(RegistrationDTO request)

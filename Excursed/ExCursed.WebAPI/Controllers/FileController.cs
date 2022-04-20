@@ -9,7 +9,7 @@ namespace ExCursed.WebAPI.Controllers
     public class FileController : ControllerBase
     {
         [HttpGet("{*filePath}")]
-        public async Task<FileResult> GetFile(string filePath)
+        public FileResult GetFile(string filePath)
         {
             return PhysicalFile(Path.GetFullPath(filePath), GetMime(filePath));
         }

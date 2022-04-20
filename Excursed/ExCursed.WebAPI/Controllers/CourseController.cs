@@ -77,14 +77,15 @@ namespace ExCursed.WebAPI.Controllers
                 return BadRequest();
             }
 
-            var publications = await this.dbContext.Set<Publication>()
+            var publications = (await this.dbContext.Set<Publication>()
                 .Where(p => p.CourseId == id)
                 .Include(p => p.Materials)
                 .Include(p => p.PublicationGroups)
                 .ThenInclude(pg => pg.Group)
                 .Include(p => p.Course)
+                .ToListAsync())
                 .OrderByDescending(p => p.Added)
-                .ToListAsync();
+                .ToList();
             var publcicationsModel = this.mapper.Map<IEnumerable<PublicationModel>>(publications);
 
             return Ok(new CourseReadModel

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExCursed.DAL.Migrations
 {
     [DbContext(typeof(UniAtHomeDbContext))]
-    [Migration("20220406062025_Initial")]
+    [Migration("20220420160926_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -161,6 +161,71 @@ namespace ExCursed.DAL.Migrations
                             Modified = new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
                             Title = "Learning Java"
                         });
+                });
+
+            modelBuilder.Entity("ExCursed.DAL.Entities.Publication", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset>("Added")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("Modified")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("Publication");
+                });
+
+            modelBuilder.Entity("ExCursed.DAL.Entities.PublicationGroup", b =>
+                {
+                    b.Property<int>("PublicationId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("PublicationId", "GroupId");
+
+                    b.HasIndex("GroupId");
+
+                    b.ToTable("PublicationGroup");
+                });
+
+            modelBuilder.Entity("ExCursed.DAL.Entities.PublicationMaterial", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("PublicationId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PublicationId");
+
+                    b.ToTable("PublicationMaterial");
                 });
 
             modelBuilder.Entity("ExCursed.DAL.Entities.RefreshToken", b =>
@@ -633,7 +698,7 @@ namespace ExCursed.DAL.Migrations
                         {
                             Id = "00CA41A9-C962-4230-937E-D5F54772C062",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a26a1be5-a103-4e8b-8d13-a6a23e585d0e",
+                            ConcurrencyStamp = "63ab5df5-a396-466e-92d7-552f8eb87582",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -641,9 +706,9 @@ namespace ExCursed.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOf+3JrEIi60CGWFiLTGSsP1rmxPRxn+tbuQIJVyGxO7ZAnr+FBAg0uK2Wcm4PEnqw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHqbYRTD/obU5ef5tSDMhiZlC1pGNw0iC90YcrCSVpRqm9MMqiyiP+sW3VvxkZbr8g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "de5eca2f-8f7a-4061-8273-ba2c17cb1840",
+                            SecurityStamp = "856de091-b5b3-49c3-9b2f-4a8c9e4b2a01",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -651,7 +716,7 @@ namespace ExCursed.DAL.Migrations
                         {
                             Id = "BFCC8BAB-AD20-4F70-9CD9-D2003FAE6F09",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "da0c839e-7ce5-475a-8bf2-60b8edfa6ae5",
+                            ConcurrencyStamp = "4cca3ea4-e6d8-4098-9f97-8d72d638fc08",
                             Email = "uadmin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Vladimir",
@@ -659,9 +724,9 @@ namespace ExCursed.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "UADMIN@GMAIL.COM",
                             NormalizedUserName = "UADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPctDLxgQJ7bNQcMg91oQIXBSm8YxJOrUFvTGNQGYDdgja8pV5RFD8kSjnsHDnfgow==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPaYK9xQvFL1nzP3XGkNUrB6a+p6ltH84/CjaBU9ctob3F9N0Xg1za2yVVpW7804cg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c87bee6c-df8e-490a-8f00-49ace9cb68be",
+                            SecurityStamp = "58228078-6d6c-4e04-bed9-6bffc0c11d65",
                             TwoFactorEnabled = false,
                             UserName = "uadmin@gmail.com"
                         },
@@ -669,7 +734,7 @@ namespace ExCursed.DAL.Migrations
                         {
                             Id = "E8D13331-62AB-463E-A283-6493B68A3622",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8317d3ef-7641-4c38-9c02-c6ba74839e9e",
+                            ConcurrencyStamp = "93b5826e-b5aa-45ea-a4e9-c52fc6e022f5",
                             Email = "ihor.juice@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Ihor",
@@ -677,9 +742,9 @@ namespace ExCursed.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "IHOR.JUICE@GMAIL.COM",
                             NormalizedUserName = "IHOR.JUICE@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMQLj28p+8n5q5R1FTb5a+yZSBs8Q8DADKwATs09o/pBVzYlAXFnvxx3J88ifqvi1A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEWEfQPaj5IcR7RgylmijjCc86GBvTIsdrnnrqxu8y75xYQKgwfSYOZCStOmpS9pBg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0aac2288-ea39-473f-9647-765487e5cd05",
+                            SecurityStamp = "30258a5e-aed1-403c-ae11-8c8b3be36565",
                             TwoFactorEnabled = false,
                             UserName = "ihor.juice@gmail.com"
                         },
@@ -687,7 +752,7 @@ namespace ExCursed.DAL.Migrations
                         {
                             Id = "E3A6BF34-A57D-4709-97CC-6AD1B2B3985B",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c382e459-25ac-4406-a8f9-df41b31b7dc7",
+                            ConcurrencyStamp = "243a98e4-ee1e-4794-982a-04f6cd6411cb",
                             Email = "slava.ivanov@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Slava",
@@ -695,9 +760,9 @@ namespace ExCursed.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SLAVA.IVANOV@GMAIL.COM",
                             NormalizedUserName = "SLAVA.IVANOV@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDYgYTRwgHeumuDBLv/0LPO7Sa2V+MW2lEOj0BfShs7AvCM8MwxSwdiIIUJXz59TMg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELcvsZBVRrNa9VN3QgFQF7ODEbbCVwzidSgFlAoNac9iHs+AziMG7M8P+o7p18/n8Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0483845e-7bbe-4a84-86b2-c516a68ccba1",
+                            SecurityStamp = "6366a93e-1208-43e0-8b5b-06806c3f73e6",
                             TwoFactorEnabled = false,
                             UserName = "slava.ivanov@gmail.com"
                         });
@@ -772,28 +837,28 @@ namespace ExCursed.DAL.Migrations
                         new
                         {
                             Id = "2AEFE1C5-C5F0-4399-8FB8-420813567554",
-                            ConcurrencyStamp = "abd8293c-5007-4749-b101-a7ca10d91e9c",
+                            ConcurrencyStamp = "7f513aa0-d261-4b2e-a70b-56eb90fce932",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "99DA7670-5471-414F-834E-9B3A6B6C8F6F",
-                            ConcurrencyStamp = "872f98b6-a513-4c87-9cb7-31a0b56d542f",
+                            ConcurrencyStamp = "86745f35-7e84-4c70-b045-7bfb4a868cee",
                             Name = "UniversityAdmin",
                             NormalizedName = "UNIVERSITYADMIN"
                         },
                         new
                         {
                             Id = "828A3B02-77C0-45C1-8E97-6ED57711E577",
-                            ConcurrencyStamp = "8c95341d-3507-4021-a131-e58252fa48be",
+                            ConcurrencyStamp = "64088c7a-88bc-45e1-90b7-26bd36db80fa",
                             Name = "Teacher",
                             NormalizedName = "TEACHER"
                         },
                         new
                         {
                             Id = "422EEB6A-3031-4B66-ABA8-0F85AFC07C3C",
-                            ConcurrencyStamp = "be32e3f3-363e-4dc0-a4d0-e66f7193b70b",
+                            ConcurrencyStamp = "b11ed81f-a532-4a6f-90b8-9e35e801d42e",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         });
@@ -959,6 +1024,39 @@ namespace ExCursed.DAL.Migrations
                     b.HasOne("ExCursed.DAL.Entities.Course", "Course")
                         .WithMany("Lessons")
                         .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ExCursed.DAL.Entities.Publication", b =>
+                {
+                    b.HasOne("ExCursed.DAL.Entities.Course", "Course")
+                        .WithMany("Publications")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ExCursed.DAL.Entities.PublicationGroup", b =>
+                {
+                    b.HasOne("ExCursed.DAL.Entities.Group", "Group")
+                        .WithMany("PublicationGroups")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ExCursed.DAL.Entities.Publication", "Publication")
+                        .WithMany("PublicationGroups")
+                        .HasForeignKey("PublicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ExCursed.DAL.Entities.PublicationMaterial", b =>
+                {
+                    b.HasOne("ExCursed.DAL.Entities.Publication", "Publication")
+                        .WithMany("Materials")
+                        .HasForeignKey("PublicationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -38,7 +38,7 @@ namespace ExCursed.WebAPI.Configuration
                 .ForMember(
                     dest => dest.Title,
                     opt => opt.MapFrom(src => src.Name))
-                .ForMember(d => d.ImagePath, opt => opt.MapFrom(src => Path.GetFullPath(src.ImagePath)));
+                .ForMember(d => d.ImagePath, opt => opt.MapFrom(src => FileController.GetFileLink(src.ImagePath)));
             CreateMap<LessonDTO, LessonResponse>();
             CreateMap<Group, GroupDTO>();
 
@@ -95,7 +95,7 @@ namespace ExCursed.WebAPI.Configuration
                     p => p.PublicationGroups, 
                     opt => opt.MapFrom(g => g.PublicationGroups.Select(gr => gr.Group)));
             CreateMap<PublicationMaterial, PublicationMaterialModel>()
-                .ForMember(p => p.Url, opt => opt.MapFrom(m => Path.GetFullPath(m.Url)));
+                .ForMember(p => p.Url, opt => opt.MapFrom(m => FileController.GetFileLink(m.Url)));
             CreateMap<PublicationGroup, PublicationGroupModel>();
         }
     }

@@ -696,7 +696,7 @@ namespace ExCursed.DAL.Migrations
                         {
                             Id = "00CA41A9-C962-4230-937E-D5F54772C062",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dd26c7e6-a0d3-4236-9255-64f37f350eff",
+                            ConcurrencyStamp = "63ab5df5-a396-466e-92d7-552f8eb87582",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -704,9 +704,9 @@ namespace ExCursed.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEK3PyMGjkRvKOCYIp2sQijieIfL/sL4WnrGYbn5aaWz2ophfXWptIyng4/PPpGmjlQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHqbYRTD/obU5ef5tSDMhiZlC1pGNw0iC90YcrCSVpRqm9MMqiyiP+sW3VvxkZbr8g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a9121c00-0920-40f8-9901-1ca7a02dd79c",
+                            SecurityStamp = "856de091-b5b3-49c3-9b2f-4a8c9e4b2a01",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         },
@@ -714,7 +714,7 @@ namespace ExCursed.DAL.Migrations
                         {
                             Id = "BFCC8BAB-AD20-4F70-9CD9-D2003FAE6F09",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "de25fbba-9ddb-4c35-897f-cd686e7e2159",
+                            ConcurrencyStamp = "4cca3ea4-e6d8-4098-9f97-8d72d638fc08",
                             Email = "uadmin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Vladimir",
@@ -722,9 +722,9 @@ namespace ExCursed.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "UADMIN@GMAIL.COM",
                             NormalizedUserName = "UADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEO21om+hlrzoBZ8Wao0x3kwroYo08erDIY/c+azbWPKYOsKJTA0ODKTMswcfFoDdFw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPaYK9xQvFL1nzP3XGkNUrB6a+p6ltH84/CjaBU9ctob3F9N0Xg1za2yVVpW7804cg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e28f0f58-73b5-4a37-a339-cde767ccd442",
+                            SecurityStamp = "58228078-6d6c-4e04-bed9-6bffc0c11d65",
                             TwoFactorEnabled = false,
                             UserName = "uadmin@gmail.com"
                         },
@@ -732,7 +732,7 @@ namespace ExCursed.DAL.Migrations
                         {
                             Id = "E8D13331-62AB-463E-A283-6493B68A3622",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "88b5b274-dc18-47d3-8437-a30bebbfa9bc",
+                            ConcurrencyStamp = "93b5826e-b5aa-45ea-a4e9-c52fc6e022f5",
                             Email = "ihor.juice@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Ihor",
@@ -740,9 +740,9 @@ namespace ExCursed.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "IHOR.JUICE@GMAIL.COM",
                             NormalizedUserName = "IHOR.JUICE@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDnNMRJHnG8VZ5QUbta8vX2621Hft0RCiVz0Nm21hWxI4vGlznPoofRVQd+MeT6ZsQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEWEfQPaj5IcR7RgylmijjCc86GBvTIsdrnnrqxu8y75xYQKgwfSYOZCStOmpS9pBg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "29a8327c-03b7-45e2-983b-fdbd584c5891",
+                            SecurityStamp = "30258a5e-aed1-403c-ae11-8c8b3be36565",
                             TwoFactorEnabled = false,
                             UserName = "ihor.juice@gmail.com"
                         },
@@ -750,7 +750,7 @@ namespace ExCursed.DAL.Migrations
                         {
                             Id = "E3A6BF34-A57D-4709-97CC-6AD1B2B3985B",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fcabde9b-5890-4106-b0b4-3f41d89c7087",
+                            ConcurrencyStamp = "243a98e4-ee1e-4794-982a-04f6cd6411cb",
                             Email = "slava.ivanov@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Slava",
@@ -758,9 +758,9 @@ namespace ExCursed.DAL.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SLAVA.IVANOV@GMAIL.COM",
                             NormalizedUserName = "SLAVA.IVANOV@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEO/EyeGYp3K4bIGcGnb1hBz6/dUnit5e5TzTVQDYzRp+skkOCZEE3K+qYvDkj7Ea4A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELcvsZBVRrNa9VN3QgFQF7ODEbbCVwzidSgFlAoNac9iHs+AziMG7M8P+o7p18/n8Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "76669700-f539-4594-880d-ceeaa62f85dd",
+                            SecurityStamp = "6366a93e-1208-43e0-8b5b-06806c3f73e6",
                             TwoFactorEnabled = false,
                             UserName = "slava.ivanov@gmail.com"
                         });
@@ -835,28 +835,28 @@ namespace ExCursed.DAL.Migrations
                         new
                         {
                             Id = "2AEFE1C5-C5F0-4399-8FB8-420813567554",
-                            ConcurrencyStamp = "2394cd90-12bd-40a6-b056-24d8d6147542",
+                            ConcurrencyStamp = "7f513aa0-d261-4b2e-a70b-56eb90fce932",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "99DA7670-5471-414F-834E-9B3A6B6C8F6F",
-                            ConcurrencyStamp = "56f0dad0-077f-4452-8094-f47b36ec1b0b",
+                            ConcurrencyStamp = "86745f35-7e84-4c70-b045-7bfb4a868cee",
                             Name = "UniversityAdmin",
                             NormalizedName = "UNIVERSITYADMIN"
                         },
                         new
                         {
                             Id = "828A3B02-77C0-45C1-8E97-6ED57711E577",
-                            ConcurrencyStamp = "541db318-554b-4e24-80e5-12e5d0a03f6d",
+                            ConcurrencyStamp = "64088c7a-88bc-45e1-90b7-26bd36db80fa",
                             Name = "Teacher",
                             NormalizedName = "TEACHER"
                         },
                         new
                         {
                             Id = "422EEB6A-3031-4B66-ABA8-0F85AFC07C3C",
-                            ConcurrencyStamp = "a3864534-a408-4860-9ba3-db2fc99587fb",
+                            ConcurrencyStamp = "b11ed81f-a532-4a6f-90b8-9e35e801d42e",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         });

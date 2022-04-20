@@ -21,7 +21,7 @@ namespace ExCursed.BLL.Services
             {
                 string fileExtension = Path.GetExtension(image.FileName);
                 string fileName = Guid.NewGuid().ToString() + fileExtension;
-                string filePath = Path.Combine(this.filesFolder, fileName);
+                string filePath = Path.Combine(this.filesFolder, fileName).Replace("\\", "/");
                 Directory.CreateDirectory(filesFolder);
                 using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
                 {

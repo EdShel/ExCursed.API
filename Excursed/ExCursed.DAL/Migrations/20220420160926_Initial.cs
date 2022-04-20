@@ -366,6 +366,29 @@ namespace ExCursed.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Publication",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Added = table.Column<DateTimeOffset>(nullable: false),
+                    Modified = table.Column<DateTimeOffset>(nullable: false),
+                    CourseId = table.Column<int>(nullable: false),
+                    Title = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Publication", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Publication_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CourseMembers",
                 columns: table => new
                 {
@@ -421,6 +444,27 @@ namespace ExCursed.DAL.Migrations
                         principalTable: "Lessons",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PublicationMaterial",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    PublicationId = table.Column<int>(nullable: false),
+                    FileName = table.Column<string>(nullable: true),
+                    Url = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PublicationMaterial", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PublicationMaterial_Publication_PublicationId",
+                        column: x => x.PublicationId,
+                        principalTable: "Publication",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -489,6 +533,30 @@ namespace ExCursed.DAL.Migrations
                         name: "FK_TestQuestions_Tests_TestId",
                         column: x => x.TestId,
                         principalTable: "Tests",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PublicationGroup",
+                columns: table => new
+                {
+                    PublicationId = table.Column<int>(nullable: false),
+                    GroupId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PublicationGroup", x => new { x.PublicationId, x.GroupId });
+                    table.ForeignKey(
+                        name: "FK_PublicationGroup_Group_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "Group",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PublicationGroup_Publication_PublicationId",
+                        column: x => x.PublicationId,
+                        principalTable: "Publication",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -635,42 +703,42 @@ namespace ExCursed.DAL.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "2AEFE1C5-C5F0-4399-8FB8-420813567554", "abd8293c-5007-4749-b101-a7ca10d91e9c", "Admin", "ADMIN" });
+                values: new object[] { "2AEFE1C5-C5F0-4399-8FB8-420813567554", "7f513aa0-d261-4b2e-a70b-56eb90fce932", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "99DA7670-5471-414F-834E-9B3A6B6C8F6F", "872f98b6-a513-4c87-9cb7-31a0b56d542f", "UniversityAdmin", "UNIVERSITYADMIN" });
+                values: new object[] { "99DA7670-5471-414F-834E-9B3A6B6C8F6F", "86745f35-7e84-4c70-b045-7bfb4a868cee", "UniversityAdmin", "UNIVERSITYADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "828A3B02-77C0-45C1-8E97-6ED57711E577", "8c95341d-3507-4021-a131-e58252fa48be", "Teacher", "TEACHER" });
+                values: new object[] { "828A3B02-77C0-45C1-8E97-6ED57711E577", "64088c7a-88bc-45e1-90b7-26bd36db80fa", "Teacher", "TEACHER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "422EEB6A-3031-4B66-ABA8-0F85AFC07C3C", "be32e3f3-363e-4dc0-a4d0-e66f7193b70b", "Student", "STUDENT" });
+                values: new object[] { "422EEB6A-3031-4B66-ABA8-0F85AFC07C3C", "b11ed81f-a532-4a6f-90b8-9e35e801d42e", "Student", "STUDENT" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "00CA41A9-C962-4230-937E-D5F54772C062", 0, "a26a1be5-a103-4e8b-8d13-a6a23e585d0e", "admin@gmail.com", false, "Admin", "Adminovich", false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAEAACcQAAAAEOf+3JrEIi60CGWFiLTGSsP1rmxPRxn+tbuQIJVyGxO7ZAnr+FBAg0uK2Wcm4PEnqw==", null, false, "de5eca2f-8f7a-4061-8273-ba2c17cb1840", false, "admin@gmail.com" });
+                values: new object[] { "00CA41A9-C962-4230-937E-D5F54772C062", 0, "63ab5df5-a396-466e-92d7-552f8eb87582", "admin@gmail.com", false, "Admin", "Adminovich", false, null, "ADMIN@GMAIL.COM", "ADMIN@GMAIL.COM", "AQAAAAEAACcQAAAAEHqbYRTD/obU5ef5tSDMhiZlC1pGNw0iC90YcrCSVpRqm9MMqiyiP+sW3VvxkZbr8g==", null, false, "856de091-b5b3-49c3-9b2f-4a8c9e4b2a01", false, "admin@gmail.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "BFCC8BAB-AD20-4F70-9CD9-D2003FAE6F09", 0, "da0c839e-7ce5-475a-8bf2-60b8edfa6ae5", "uadmin@gmail.com", false, "Vladimir", "Bream", false, null, "UADMIN@GMAIL.COM", "UADMIN@GMAIL.COM", "AQAAAAEAACcQAAAAEPctDLxgQJ7bNQcMg91oQIXBSm8YxJOrUFvTGNQGYDdgja8pV5RFD8kSjnsHDnfgow==", null, false, "c87bee6c-df8e-490a-8f00-49ace9cb68be", false, "uadmin@gmail.com" });
+                values: new object[] { "BFCC8BAB-AD20-4F70-9CD9-D2003FAE6F09", 0, "4cca3ea4-e6d8-4098-9f97-8d72d638fc08", "uadmin@gmail.com", false, "Vladimir", "Bream", false, null, "UADMIN@GMAIL.COM", "UADMIN@GMAIL.COM", "AQAAAAEAACcQAAAAEPaYK9xQvFL1nzP3XGkNUrB6a+p6ltH84/CjaBU9ctob3F9N0Xg1za2yVVpW7804cg==", null, false, "58228078-6d6c-4e04-bed9-6bffc0c11d65", false, "uadmin@gmail.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "E8D13331-62AB-463E-A283-6493B68A3622", 0, "8317d3ef-7641-4c38-9c02-c6ba74839e9e", "ihor.juice@gmail.com", false, "Ihor", "Juice", false, null, "IHOR.JUICE@GMAIL.COM", "IHOR.JUICE@GMAIL.COM", "AQAAAAEAACcQAAAAEMQLj28p+8n5q5R1FTb5a+yZSBs8Q8DADKwATs09o/pBVzYlAXFnvxx3J88ifqvi1A==", null, false, "0aac2288-ea39-473f-9647-765487e5cd05", false, "ihor.juice@gmail.com" });
+                values: new object[] { "E8D13331-62AB-463E-A283-6493B68A3622", 0, "93b5826e-b5aa-45ea-a4e9-c52fc6e022f5", "ihor.juice@gmail.com", false, "Ihor", "Juice", false, null, "IHOR.JUICE@GMAIL.COM", "IHOR.JUICE@GMAIL.COM", "AQAAAAEAACcQAAAAEEWEfQPaj5IcR7RgylmijjCc86GBvTIsdrnnrqxu8y75xYQKgwfSYOZCStOmpS9pBg==", null, false, "30258a5e-aed1-403c-ae11-8c8b3be36565", false, "ihor.juice@gmail.com" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "E3A6BF34-A57D-4709-97CC-6AD1B2B3985B", 0, "c382e459-25ac-4406-a8f9-df41b31b7dc7", "slava.ivanov@gmail.com", false, "Slava", "Ivanov", false, null, "SLAVA.IVANOV@GMAIL.COM", "SLAVA.IVANOV@GMAIL.COM", "AQAAAAEAACcQAAAAEDYgYTRwgHeumuDBLv/0LPO7Sa2V+MW2lEOj0BfShs7AvCM8MwxSwdiIIUJXz59TMg==", null, false, "0483845e-7bbe-4a84-86b2-c516a68ccba1", false, "slava.ivanov@gmail.com" });
+                values: new object[] { "E3A6BF34-A57D-4709-97CC-6AD1B2B3985B", 0, "243a98e4-ee1e-4794-982a-04f6cd6411cb", "slava.ivanov@gmail.com", false, "Slava", "Ivanov", false, null, "SLAVA.IVANOV@GMAIL.COM", "SLAVA.IVANOV@GMAIL.COM", "AQAAAAEAACcQAAAAELcvsZBVRrNa9VN3QgFQF7ODEbbCVwzidSgFlAoNac9iHs+AziMG7M8P+o7p18/n8Q==", null, false, "6366a93e-1208-43e0-8b5b-06806c3f73e6", false, "slava.ivanov@gmail.com" });
 
             migrationBuilder.InsertData(
                 table: "Universities",
@@ -800,6 +868,21 @@ namespace ExCursed.DAL.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Publication_CourseId",
+                table: "Publication",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PublicationGroup_GroupId",
+                table: "PublicationGroup",
+                column: "GroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PublicationMaterial_PublicationId",
+                table: "PublicationMaterial",
+                column: "PublicationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RefreshTokens_UserId",
                 table: "RefreshTokens",
                 column: "UserId");
@@ -903,6 +986,12 @@ namespace ExCursed.DAL.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "PublicationGroup");
+
+            migrationBuilder.DropTable(
+                name: "PublicationMaterial");
+
+            migrationBuilder.DropTable(
                 name: "RefreshTokens");
 
             migrationBuilder.DropTable(
@@ -925,6 +1014,9 @@ namespace ExCursed.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Publication");
 
             migrationBuilder.DropTable(
                 name: "Students");

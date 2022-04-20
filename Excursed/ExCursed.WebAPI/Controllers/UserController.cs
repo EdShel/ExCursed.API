@@ -148,6 +148,7 @@ namespace ExCursed.WebAPI.Controllers
         }
 
         [Authorize, HttpGet("info")]
+        [Produces(typeof(UserInfoResponse))]
         public async Task<IActionResult> GetUserInfoAsync()
         {
             string email = User.Identity.Name;

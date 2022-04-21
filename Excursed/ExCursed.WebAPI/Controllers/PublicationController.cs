@@ -25,6 +25,8 @@ namespace ExCursed.WebAPI.Controllers
         public IEnumerable<int> Groups { get; set; }
 
         public IFormFileCollection Materials { get; set; }
+
+        public DateTimeOffset Added { get; set; }
     }
 
 

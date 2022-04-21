@@ -25,8 +25,6 @@ namespace ExCursed.WebAPI.Controllers
         public IEnumerable<int> Groups { get; set; }
 
         public IFormFileCollection Materials { get; set; }
-
-        public DateTimeOffset Added { get; set; }
     }
 
 
@@ -39,6 +37,8 @@ namespace ExCursed.WebAPI.Controllers
         public string Title { get; set; }
 
         public string Description { get; set; }
+
+        public DateTimeOffset Added { get; set; }
 
         public List<PublicationMaterialModel> Materials { get; set; }
 

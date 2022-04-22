@@ -104,6 +104,7 @@ namespace ExCursed.WebAPI.Configuration
                 .ForMember(m => m.Name, opt => opt.MapFrom(g => g.Group.Name))
                 ;
             CreateMap<GroupDTO, PublicationGroupModel>();
+            CreateMap<User, StudentModel>();
         }
     }
 }

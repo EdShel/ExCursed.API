@@ -88,7 +88,7 @@ namespace ExCursed.WebAPI.Controllers
                 .OrderByDescending(p => p.Added)
                 .ToList();
             var publcicationsModel = this.mapper.Map<IEnumerable<PublicationModel>>(publications);
-
+            
             IEnumerable<GroupDTO> groups = courseService.GetCourseGroups(id);
             IEnumerable<PublicationGroupModel> groupsModels = mapper.Map<IEnumerable<PublicationGroupModel>>(groups);
 

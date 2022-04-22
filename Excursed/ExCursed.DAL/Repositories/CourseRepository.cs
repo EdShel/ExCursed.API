@@ -54,6 +54,9 @@ namespace ExCursed.DAL.Repositories
             return context.Set<CourseMember>()
                 .Where(c => c.CourseId == courseId)
                 .SelectMany(c => c.Groups)
+                .Include(g => g.StudentGroups)
+                .ThenInclude(sg => sg.Student)
+                .ThenInclude(st => st.User)
                 .AsNoTracking()
                 .ToArray();
         }

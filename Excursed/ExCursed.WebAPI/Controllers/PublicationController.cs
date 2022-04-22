@@ -61,6 +61,8 @@ namespace ExCursed.WebAPI.Controllers
         public int Id { get; set; }
 
         public string Name { get; set; }
+
+        public IEnumerable<BLL.DTOs.Course.StudentModel> Students { get; set; }
     }
 
     [Route("api/[controller]")]

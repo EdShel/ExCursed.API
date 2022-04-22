@@ -134,7 +134,8 @@ namespace ExCursed.BLL.Services
                 .Select(g => new GroupDTO
                 {
                     Id = g.Id,
-                    Name = g.Name
+                    Name = g.Name,
+                    Students = g.StudentGroups.Select(sg => mapper.Map<StudentModel>(sg.Student.User))
                 });
         }
     }

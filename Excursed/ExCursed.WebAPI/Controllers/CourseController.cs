@@ -143,10 +143,10 @@ namespace ExCursed.WebAPI.Controllers
                 await this.fileStorageService.SaveFileAsync(Guid.NewGuid() + request.Image.FileName, request.Image) : null;
             int courseId = await this.courseService.AddCourseAsync(courseDto);
 
-            Regex studentsRegex = new Regex(@"^(.+?)\s(.+)$");
+            Regex studentsRegex = new Regex(@"^(.+?)\s(.+)$", RegexOptions.Multiline);
             Regex nameSurnameRegex = new Regex(@"\w+");
             var passwordGenerator = new PasswordGenerator();
-            foreach (Match match in studentsRegex.Matches(request.Students))
+            foreach (Match match in studentsRegex.Matches(request.Students.Replace("\r", "")))
             {
                 string studentEmail = match.Groups[1].Value;
                 string groupName = match.Groups[2].Value;

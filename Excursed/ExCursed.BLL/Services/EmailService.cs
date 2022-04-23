@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 using MimeKit;
 using System.Threading.Tasks;
 using ExCursed.BLL.Interfaces;
+using System.Text;
+using System;
 
 namespace ExCursed.BLL.Services
 {
@@ -36,7 +38,8 @@ namespace ExCursed.BLL.Services
             using (var client = new SmtpClient())
             {
                 await client.ConnectAsync(options.Server, options.Port, options.UseSSL);
-                await client.AuthenticateAsync(options.Email, options.Password);
+                string password = Encoding.UTF8.GetString(Convert.FromBase64String(options.Password));
+                await client.AuthenticateAsync(options.Email, password);
 
                 await client.SendAsync(emailMessage);
 

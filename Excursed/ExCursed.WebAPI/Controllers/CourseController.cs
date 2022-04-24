@@ -142,7 +142,13 @@ namespace ExCursed.WebAPI.Controllers
             courseDto.ImagePath = request.Image != null ?
                 await this.fileStorageService.SaveFileAsync(Guid.NewGuid() + request.Image.FileName, request.Image) : null;
             int courseId = await this.courseService.AddCourseAsync(courseDto);
+            await AddStudents(request, courseId);
 
+            return Ok();
+        }
+
+        private async Task AddStudents(CreateCourseRequest request, int courseId)
+        {
             Regex studentsRegex = new Regex(@"^(.+?)\s(.+)$", RegexOptions.Multiline);
             Regex nameSurnameRegex = new Regex(@"\w+");
             var passwordGenerator = new PasswordGenerator();
@@ -203,8 +209,6 @@ namespace ExCursed.WebAPI.Controllers
 
                 await groupService.AddStudentToGroupAsync(groupId, userToApply.Email);
             }
-
-            return Ok();
         }
 
         private static string CapitalizeFirstChar(string str)

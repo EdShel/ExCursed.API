@@ -191,7 +191,7 @@ namespace ExCursed.WebAPI.Controllers
                     this.logger.LogInformation("Password for new user {Email} is {Password}", newStudentModel.Email, newStudentModel.Password);
                     await this.emailService.SendAsync(studentEmail,
                         "ExCursed | Registration",
-                        $@"You've been registered in ExCursed's course <i>{request.Title}.<i/><br/> You can use this password to sign in: <b>{newStudentModel.Email}</b>");
+                        $@"You've been registered in ExCursed's course <i>{request.Title}.<i/><br/> You can use this password to sign in: <b>{newStudentModel.Password}</b>");
                 }
                 else
                 {

@@ -8,9 +8,6 @@ namespace ExCursed.WebAPI.Models.Group
         public int CourseId { get; set; }
 
         [Required]
-        public string TeacherEmail { get; set; }
-
-        [Required]
         public string GroupName { get; set; }
     }
 }

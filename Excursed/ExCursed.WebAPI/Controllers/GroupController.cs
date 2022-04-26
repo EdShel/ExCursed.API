@@ -64,7 +64,7 @@ namespace ExCursed.WebAPI.Controllers
             var dto = new CreateGroupDTO
             {
                 CourseId = request.CourseId,
-                TeacherEmail = request.TeacherEmail,
+                TeacherEmail = User.Identity.Name,
                 Name = request.GroupName
             };
             int id = await groupService.AddGroupAsync(dto);
